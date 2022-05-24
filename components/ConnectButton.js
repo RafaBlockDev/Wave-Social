@@ -25,7 +25,7 @@ const wagmiClient = createClient({
 })
 
 
-const App = () => {
+const Button = () => {
   return (
     <WagmiProvider client={wagmiClient}>
       <RainbowKitProvider chains={chains}>
