@@ -29,7 +29,7 @@ function MyApp({ Component, pageProps }) {
 
   <WagmiProvider client={wagmiClient}>
       <RainbowKitProvider chains={chains}>
-        <Component{...pageProps} />
+        <Component {...pageProps} />
       </RainbowKitProvider>
     </WagmiProvider>
 }
