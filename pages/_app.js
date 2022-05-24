@@ -1,11 +1,13 @@
 import '../styles/globals.css'
 import '@rainbow-me/rainbowkit/styles.css';
+
 import {
   apiProvider,
   configureChains,
   getDefaultWallets,
   RainbowKitProvider,
 } from '@rainbow-me/rainbowkit';
+
 import { chain, createClient, WagmiProvider } from 'wagmi';
 
 const { chains, provider } = configureChains(
@@ -15,10 +17,12 @@ const { chains, provider } = configureChains(
     apiProvider.fallback()
   ]
 );
+
 const { connectors } = getDefaultWallets({
-  appName: 'My RainbowKit App',
+  appName: 'Lending Pool Dapp',
   chains
 });
+
 const wagmiClient = createClient({
   autoConnect: true,
   connectors,
@@ -26,12 +30,13 @@ const wagmiClient = createClient({
 })
 
 function MyApp({ Component, pageProps }) {
-
-  <WagmiProvider client={wagmiClient}>
+  return (
+    <WagmiProvider client={wagmiClient}>
       <RainbowKitProvider chains={chains}>
         <Component {...pageProps} />
       </RainbowKitProvider>
     </WagmiProvider>
+  )
 }
 
 export default MyApp
