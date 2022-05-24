@@ -1,7 +1,7 @@
 import * as React from "react";
 // import { ethers } from "ethers";
 import styles from '../styles/Home.module.css'
-import { ConnectButton } from '@rainbow-me/rainbowkit';
+import '@rainbow-me/rainbowkit/styles.css';
 
 export default function WaveApp() {
 
@@ -15,9 +15,6 @@ export default function WaveApp() {
         <div className="header">
           👋🏻 Hey there!
         </div>
-
-        <ConnectButton/>
-
       </div>
     </div>
   )
