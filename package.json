@@ -1,31 +1,20 @@
 {
-  "name": "wave-social",
-  "version": "1.0.0",
-  "description": "Wave Social is a social media where you can wave to anyone and present yourself paying a fee (obviusly) and get the probably to win MATIC 🥳",
-  "main": "index.js",
+  "name": "wavedapp",
+  "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/RafaBlockDev/Wave-Social.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/RafaBlockDev/Wave-Social/issues"
-  },
-  "homepage": "https://github.com/RafaBlockDev/Wave-Social#readme",
-  "devDependencies": {
-    "@nomiclabs/hardhat-ethers": "^2.0.6",
-    "@nomiclabs/hardhat-waffle": "^2.0.3",
-    "chai": "^4.3.6",
-    "ethereum-waffle": "^3.4.4",
-    "ethers": "^5.6.6",
-    "hardhat": "^2.9.6"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
   },
   "dependencies": {
-    "dotenv": "^16.0.1"
+    "ethers": "^5.6.7",
+    "next": "12.1.6",
+    "react": "18.1.0",
+    "react-dom": "18.1.0"
+  },
+  "devDependencies": {
+    "eslint": "8.15.0",
+    "eslint-config-next": "12.1.6"
   }
 }
