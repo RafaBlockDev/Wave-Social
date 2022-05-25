@@ -32,6 +32,9 @@ export default function App() {
 
         <div className={styles.bio}>
         <ConnectButton className={styles.waveButton}/>
+        <button className={styles.waveButton} onClick={wave}>
+          Wave me! 
+        </button>
       </div>
       </div>
     </div>
