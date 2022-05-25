@@ -1,10 +1,13 @@
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { ethers } from 'ethers';
 import styles from "../styles/Home.module.css";
+import abi from "../utils/WavePortal.json";
 
 export default function App() {
 
   const contractAddress = "0x7f3b8435EFa936000B248a7bE0a6dfdAda7Bb4ad"
+
+  const contractABI = abi.abi;
 
   const wave = async () => {
     try {
