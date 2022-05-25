@@ -4,6 +4,8 @@ import styles from "../styles/Home.module.css";
 
 export default function App() {
 
+  const contractAddress = ""
+
   const wave = async () => {
     try {
       const { ethereum } = window;
