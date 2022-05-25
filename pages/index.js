@@ -3,6 +3,12 @@ import styles from "../styles/Home.module.css";
 
 export default function App() {
 
+  const wave = async () => {
+    try {
+      const { ethereum } = window;
+    }
+  }
+
   return (
     <div className={styles.mainContainer}>
       <div className={styles.dataContainer}>
