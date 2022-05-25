@@ -1,4 +1,5 @@
 import { ConnectButton } from '@rainbow-me/rainbowkit';
+import { ethers } from 'ethers';
 import styles from "../styles/Home.module.css";
 
 export default function App() {
@@ -6,6 +7,13 @@ export default function App() {
   const wave = async () => {
     try {
       const { ethereum } = window;
+    
+    if (ethereum) {
+      const provider = new ethers.providers.Web3Provider(ethereum);
+      const signer = provider.getSigner();
+      const wavePortalContract = new ethers.Contract(contractAddress, contractABI, signer);
+    }
+
     }
   }
 
