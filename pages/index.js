@@ -121,25 +121,31 @@ export default function App() {
     <div className={styles.mainContainer}>
       <div className={styles.dataContainer}>
         <div className={styles.header}>
-        👋 Hey there!
+          👋 Hey there!
         </div>
 
         <div className={styles.bio}>
           I am farza and I worked on self-driving cars so that's pretty cool right? Connect your Ethereum wallet and wave at me!
         </div>
 
-        <button className={styles.waveButton} onClick={null}>
+        <button className={styles.waveButton} onClick={wave}>
           Wave at Me
         </button>
 
-        {/*
-        * If there is no currentAccount render this button
-        */}
         {!currentAccount && (
           <button className={styles.waveButton} onClick={connectWallet}>
             Connect Wallet
           </button>
         )}
+
+        {allWaves.map((wave, index) => {
+          return (
+            <div key={index} style={{ backgroundColor: "OldLace", marginTop: "16px", padding: "8px" }}>
+              <div>Address: {wave.address}</div>
+              <div>Time: {wave.timestamp.toString()}</div>
+              <div>Message: {wave.message}</div>
+            </div>)
+        })}
       </div>
     </div>
   );
