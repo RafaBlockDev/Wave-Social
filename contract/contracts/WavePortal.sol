@@ -21,7 +21,7 @@ contract WavePortal {
         console.log("Que onda wey!, Soy un smart contract... jeje");
     }
 
-    function wave() public {
+    function wave(string memory _message) public {
         totalWaves += 1;
         console.log("%s has waved!", msg.sender);
 

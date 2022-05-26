@@ -4,13 +4,10 @@ const { hexStripZeros } = require("@ethersproject/bytes")
 // Hardhat Runtime Environment = hre
 
 const main = async () => {
-    const [owner, randomPerson] = await hre.ethers.getSigners();
     const waveContractFactory = await hre.ethers.getContractFactory("WavePortal");
     const waveContract = await waveContractFactory.deploy();
     await waveContract.deployed();
     console.log("🧾 Contract addy: ", waveContract.address);
-    console.log("🚀 Contract deployed to: ", waveContract.address);
-    console.log("👻 Contract deployed by: ", owner.address);
 
     let waveCount;
     waveCount = await waveContract.getTotalWaves();
@@ -23,7 +20,7 @@ const main = async () => {
     waveTxn = await waveContract.connect(randomPerson).wave("Another message! 😮");
     await waveTxn.wait();
     
-    let allWaves = await waveContract.getAllWaves();
+    let allWaves = await waveContract.getTotalWaves();
     console.log(allWaves);
 };
 
