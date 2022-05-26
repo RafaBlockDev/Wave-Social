@@ -7,6 +7,16 @@ import "hardhat/console.sol";
 contract WavePortal {
     uint256 totalWaves;
 
+    event NewWave(address indexed from, uint256 timestamp, string message);
+
+    struct Wave {
+        address waver;
+        string message;
+        uint256 timestamp;
+    }
+
+    Wave[] waves;
+
     constructor() {
         console.log("Que onda wey!, Soy un smart contract... jeje");
     }
@@ -14,6 +24,10 @@ contract WavePortal {
     function wave() public {
         totalWaves += 1;
         console.log("%s has waved!", msg.sender);
+
+        waves.push(Wave(msg.sender, _message, block.timestamp));
+
+        emit NewWave(msg.sender, block.timestamp, _message);
     }
 
     function getTotalWaves() public view returns (uint256) {
