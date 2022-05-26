@@ -1,13 +1,46 @@
-import { ConnectButton } from '@rainbow-me/rainbowkit';
+import React, { useEffect, useState } from "react";
 import { ethers } from 'ethers';
 import styles from "../styles/Home.module.css";
 import abi from "../utils/WavePortal.json";
 
 export default function App() {
 
-  const contractAddress = "0x7f3b8435EFa936000B248a7bE0a6dfdAda7Bb4ad"
+  const [currentAccount, setCurrectAccount] = useState("");
+
+  const contractAddress = "0x48261af7411c7Fa6c14B5b1DB44FebF5985cBe2f"
 
   const contractABI = abi.abi;
+
+  const [allWaves, setAllWaves] = useState([]);
+
+  const getAllWaves = async () => {
+    try {
+      const { ethereum } = window;
+    
+    if (ethereum) {
+      const provider = new ethers.providers.Web3Provider(ethereum);
+      const signer = provider.getSigner();
+      const wavePortalContract = new ethers.Contract(contractAddress, contractABI, signer);
+
+      const waves = await wavePortalContract.getAllWaves();
+
+      let wavesCleaned = [];
+      waves.forEach(wave => {
+        wavesCleaned.push({
+          address: wave.waver,
+          timestamp: new Date(wave.timestamp * 1000),
+          message: wave.message
+        });
+      });
+
+      setAllWaves(waveCleaned);
+    } else {
+      console.log("Ethereum not find")
+    }
+  } catch (error) {
+    console.log(error);
+    }
+  }
 
   const wave = async () => {
     try {
@@ -37,20 +70,77 @@ export default function App() {
     }
   }
 
+  const checkIfWalletIsConnected = async () => {
+    try {
+      const { ethereum } = window;
+
+      if (!ethereum) {
+        console.log("Make sure you have metamask!");
+        return;
+      } else {
+        console.log("We have the ethereum object", ethereum);
+      }
+
+      const accounts = await ethereum.request({ method: "eth_accounts" });
+
+      if (accounts.length !== 0) {
+        const account = accounts[0];
+        console.log("Found an authorized account:", account);
+        setCurrentAccount(account);
+      } else {
+        console.log("No authorized account found")
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const connectWallet = async () => {
+    try {
+      const { ethereum } = window;
+
+      if (!ethereum) {
+        alert("Get MetaMask!");
+        return;
+      }
+
+      const accounts = await ethereum.request({ method: "eth_requestAccounts" });
+
+      console.log("Connected", accounts[0]);
+      setCurrentAccount(accounts[0]);
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  
+  useEffect(() => {
+    checkIfWalletIsConnected();
+  }, [])
+
   return (
     <div className={styles.mainContainer}>
       <div className={styles.dataContainer}>
         <div className={styles.header}>
-        👋 Hi there!
+        👋 Hey there!
         </div>
 
         <div className={styles.bio}>
-        <ConnectButton className={styles.waveButton}/>
-        <button className={styles.waveButton} onClick={wave}>
-          Wave me! 
+          I am farza and I worked on self-driving cars so that's pretty cool right? Connect your Ethereum wallet and wave at me!
+        </div>
+
+        <button className={styles.waveButton} onClick={null}>
+          Wave at Me
         </button>
-      </div>
+
+        {/*
+        * If there is no currentAccount render this button
+        */}
+        {!currentAccount && (
+          <button className={styles.waveButton} onClick={connectWallet}>
+            Connect Wallet
+          </button>
+        )}
       </div>
     </div>
-  )
+  );
 }
