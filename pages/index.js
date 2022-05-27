@@ -6,69 +6,46 @@ import abi from "../utils/WavePortal.json";
 export default function App() {
 
   const [currentAccount, setCurrectAccount] = useState("");
-
-  const contractAddress = "0x48261af7411c7Fa6c14B5b1DB44FebF5985cBe2f"
-
-  const contractABI = abi.abi;
-
   const [allWaves, setAllWaves] = useState([]);
+  const contractAddress = "0x1601d681872b5ACEB35040Dc454012809274A09c"
 
   const getAllWaves = async () => {
     try {
-      const { ethereum } = window;
-    
-    if (ethereum) {
-      const provider = new ethers.providers.Web3Provider(ethereum);
-      const signer = provider.getSigner();
-      const wavePortalContract = new ethers.Contract(contractAddress, contractABI, signer);
+      if (window.ethereum) {
+        const provider = new ethers.providers.Web3Provider
+        const signer = provider.getSigner();
+        const wavePortalContract = new ethers.Contract(contractAddress, wavePortal.abi, signer);
 
-      const waves = await wavePortalContract.getAllWaves();
+        const waves = await wavePortalContract.getAllWaves();
 
-      let wavesCleaned = [];
-      waves.forEach(wave => {
-        wavesCleaned.push({
-          address: wave.waver,
-          timestamp: new Date(wave.timestamp * 1000),
-          message: wave.message
+        let wavesCleaned = [];
+        waves.forEach(wave => {
+          wavesCleaned.push({
+            address: wave.waver,
+            timestamp: new Date(wave.timestamp * 1000),
+            message: wave.message
+          });
         });
-      });
 
-      setAllWaves(waveCleaned);
-    } else {
-      console.log("Ethereum not find")
-    }
-  } catch (error) {
-    console.log(error);
-    }
-  }
+        setAllWaves(wavesCleaned);
 
-  const wave = async () => {
-    try {
-      const { ethereum } = window;
-    
-    if (ethereum) {
-      const provider = new ethers.providers.Web3Provider(ethereum);
-      const signer = provider.getSigner();
-      const wavePortalContract = new ethers.Contract(contractAddress, contractABI, signer);
-    
-      let count = await wavePortalContract.getTotalWaves();
-      console.log("Retrieved total wave count...", count.toNumber()); 
+        wavePortalContract.on("NewWave", (from, timestamp, message) => {
+          console.log("NewWave", from, timestamp, message);
 
-      const waveTxn = await wavePortalContract.wave();
-      console.log("⛏ Mining...", waveTxn.hash);
-
-      await waveTxn.wait();
-      console.log("💰 Mined -- ", waveTxn.hash);
-
-      count = await wavePortalContract.getTotalWaves();
-      console.log("👾 Retrieved total wave count... -- ", count.toNumber());
-    } else {
-      console.log("Ethereum object does not exist!");
+          setAllWaves(prevState => [...prevState, {
+            address: from,
+            timestamp: new Date(timestamp * 1000),
+            message: message
+          }]);
+        });
+      } else {
+        console.log("Ethereum object doesn't exist!")
       }
     } catch (error) {
       console.log(error);
     }
   }
+
 
   const checkIfWalletIsConnected = async () => {
     try {
@@ -81,12 +58,11 @@ export default function App() {
         console.log("We have the ethereum object", ethereum);
       }
 
-      const accounts = await ethereum.request({ method: "eth_accounts" });
+      const accounts = await ethereum.request({ method: 'eth_accounts' });
 
       if (accounts.length !== 0) {
         const account = accounts[0];
         console.log("Found an authorized account:", account);
-        setCurrentAccount(account);
       } else {
         console.log("No authorized account found")
       }
@@ -112,7 +88,35 @@ export default function App() {
       console.log(error)
     }
   }
-  
+
+  const wave = async () => {
+    try {
+      const { ethereum } = window;
+
+      if (ethereum) {
+        const provider = new ethers.providers.Web3Provider(ethereum);
+        const signer = provider.getSigner();
+        const wavePortalContract = new ethers.Contract(contractAddress, wavePortal.abi, signer);
+
+        let count = await waveportalContract.getTotalWaves();
+        console.log("Retrieved total wave count...", count.toNumber());
+
+        const waveTxn = await wavePortalContract.wave();
+        console.log("Mining...", waveTxn.hash);
+
+        await waveTxn.wait();
+        console.log("Mined -- ", waveTxn.hash);
+
+        count = await wavePortalContract.getTotalWaves();
+        console.log("Retrieved total wave count...", count.toNumber());
+      } else {
+        console.log("Ethereum object doesn't exist!");
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   useEffect(() => {
     checkIfWalletIsConnected();
   }, [])
@@ -125,7 +129,7 @@ export default function App() {
         </div>
 
         <div className={styles.bio}>
-          I am farza and I worked on self-driving cars so that's pretty cool right? Connect your Ethereum wallet and wave at me!
+          I am Rafael and I worked on self-driving cars so that's pretty cool right? Connect your Mumbai wallet and wave at me!
         </div>
 
         <button className={styles.waveButton} onClick={wave}>
@@ -140,7 +144,7 @@ export default function App() {
 
         {allWaves.map((wave, index) => {
           return (
-            <div key={index} style={{ backgroundColor: "OldLace", marginTop: "16px", padding: "8px" }}>
+            <div style={{ backgroundColor: "OldLace", marginTop: "16px", padding: "8px" }}>
               <div>Address: {wave.address}</div>
               <div>Time: {wave.timestamp.toString()}</div>
               <div>Message: {wave.message}</div>
