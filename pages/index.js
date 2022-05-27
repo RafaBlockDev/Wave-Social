@@ -5,7 +5,7 @@ import abi from "../utils/WavePortal.json";
 
 export default function App() {
 
-  const [currentAccount, setCurrectAccount] = useState("");
+  const [currentAccount, setCurrentAccount] = useState("");
   const [allWaves, setAllWaves] = useState([]);
   const contractAddress = "0x1601d681872b5ACEB35040Dc454012809274A09c"
 
@@ -129,9 +129,10 @@ export default function App() {
         </div>
 
         <div className={styles.bio}>
-          I am Rafael and I worked on self-driving cars so that's pretty cool right? Connect your Mumbai wallet and wave at me!
+          I am Rafael, blockchain and web3 developer! And I am excited to give you a welcome.
         </div>
 
+        {}
         <button className={styles.waveButton} onClick={wave}>
           Wave at Me
         </button>
